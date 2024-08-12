@@ -11,7 +11,7 @@ export const getPokemons = async (offset: number, limit: number, name?: string, 
     let queryStrings = `limit: ${limit}, offset: ${offset}`
 
     if (typeof name !== 'undefined' && name !== '') {
-      queryStrings += `, where: { name: {_like: "%${name}%"}}`
+      queryStrings += `, where: { name: {_ilike: "%${name}%"}}`
     }
 
     if (typeof typeFilter !== 'undefined' && typeFilter !== '' && typeFilter !== 'all') {
@@ -19,8 +19,6 @@ export const getPokemons = async (offset: number, limit: number, name?: string, 
     }
 
     queryStrings += `, order_by: {id: asc}`
-
-    console.log(queryStrings)
 
     const requestBody = {
       query: `query getListOfPokemons {
@@ -51,7 +49,6 @@ export const getPokemons = async (offset: number, limit: number, name?: string, 
     return data.data.pokemon_v2_pokemon
   }
   catch (error) {
-    console.log(error)
     throw new Error(`An error happened: ${error}`)
   }
 }
